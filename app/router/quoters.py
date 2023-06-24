@@ -6,7 +6,7 @@ from app.router.security import get_current_user
 from app.domain.entities import QuoterModel, QuoterIdModel, QuoterUpdateModel
 
 import requests
-from fastapi import Depends, APIRouter, HTTPException
+from fastapi import Depends, APIRouter, HTTPException, Response
 from fastapi.encoders import jsonable_encoder
 
 log = logging.getLogger(__name__)
@@ -137,8 +137,7 @@ async def update_quoter(
             detail=response.json().get("detail")
         )
     if not response.text:
-        raise HTTPException(
-            status_code=response.status_code,
-            detail=response.text
+        return Response(
+            status_code=response.status_code
         )
     return response.json()

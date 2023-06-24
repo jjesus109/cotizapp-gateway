@@ -1,7 +1,6 @@
 import logging
 
-from app.router import quoters
-from app.router import security
+from app.router import quoters, security, clients, products
 from app.config import Configuration, configure_logger
 
 import uvicorn
@@ -19,7 +18,8 @@ app = FastAPI(
 )
 app.include_router(security.router)
 app.include_router(quoters.router)
-
+app.include_router(clients.router)
+app.include_router(products.router)
 
 if __name__ == "__main__":
     conf = Configuration()

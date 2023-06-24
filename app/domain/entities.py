@@ -55,6 +55,25 @@ class ServiceModel(BaseModel):
         }
 
 
+class ServiceUpdateModel(BaseModel):
+    name: Optional[str]
+    description: Optional[str]
+    client_price: Optional[float]
+    real_price: Optional[float]
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+        sschema_extra = {
+            "example": {
+                "name": "Mantenimiento",
+                "description": "Mantenimiento preventivo y correctivo",
+                "client_price": 600,
+                "real_price": 180
+            }
+        }
+
+
 class ProductModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     title: str
@@ -118,6 +137,17 @@ class QuoterUpdateModel(BaseModel):
     client: Optional[Client]
     services: Optional[List[ServiceModel]]
     products: Optional[List[ProductModel]]
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+
+class ClientUpdate(BaseModel):
+    name: Optional[str]
+    location: Optional[str]
+    email: Optional[str]
+    phone_number: Optional[int]
 
     class Config:
         arbitrary_types_allowed = True
