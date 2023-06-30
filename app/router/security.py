@@ -12,7 +12,7 @@ from app.depends import get_gateway
 from app.adapters.gateway_i import GatewayInterface
 from app.schemas import Token
 
-from fastapi import Depends, APIRouter, HTTPException, status
+from fastapi import Depends, APIRouter, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 
@@ -31,7 +31,7 @@ router = APIRouter(
     tags=["auth"],
     responses=responses,
 )
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/token")
 
 
 async def get_current_user(
@@ -54,8 +54,9 @@ async def get_current_user(
     return True
 
 
-@router.post("/token", response_model=Token)
+@router.post("/api/v1/token", response_model=Token)
 async def login_for_access_token(
+    request: Request,
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     gateway: Annotated[GatewayInterface, Depends(get_gateway)]
 ):

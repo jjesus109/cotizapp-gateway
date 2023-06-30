@@ -48,8 +48,7 @@ async def search_quoter_by_content(
         )
     if not response.text:
         raise HTTPException(
-            status_code=response.status_code,
-            detail=response.json().get("detail")
+            status_code=response.status_code
         )
     return response.json()
 
